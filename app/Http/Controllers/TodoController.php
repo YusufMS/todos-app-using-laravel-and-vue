@@ -14,7 +14,14 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        
+        $todos = Todo::orderBy('created_at', 'desc')->paginate(5);
+        // $todos = json_encode($todos);
+
+        // $todos = Todo::all();
+        $todos = json_encode($todos);
+        return $todos;
+        // return view('todos.index', ['todos' => $todos]);
     }
 
     /**
@@ -57,7 +64,7 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        //
+        return $todo;
     }
 
     /**
