@@ -25,9 +25,9 @@
 
         <main class="py-4">
             <div class="container">
+                <alert-messages v-bind="alerts"></alert-messages>
                 @yield('content')
             </div>
-            
         </main>
     </div>
 </body>

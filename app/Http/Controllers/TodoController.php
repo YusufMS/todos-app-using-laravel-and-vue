@@ -14,9 +14,9 @@ class TodoController extends Controller
      */
     public function index()
     {
-        
+        // abort(404, 'Aborted Message');
+        // return $exception->getMessage();
         $todos = Todo::orderBy('created_at', 'desc')->paginate(5);
-        // $todos = json_encode($todos);
 
         // $todos = Todo::all();
         $todos = json_encode($todos);
@@ -42,10 +42,10 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation to be done
-        // $request->validate([
-        //     'title' => 'required'
-        // ]);
+        $request->validate([
+            'title' => 'required|string|min:3',
+            'description' => 'required'
+        ]);
         
         $todo = new Todo;
         $todo->title = $request->title;
@@ -95,6 +95,6 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
     }
 }

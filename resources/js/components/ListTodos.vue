@@ -63,8 +63,10 @@ export default {
             .done(function(json){
                 this.todos_data = json;
             })
-            .fail(function(){
+            .fail(function(xhr, status, err){
                 console.log('Request to fetch todos failed');
+                console.log(xhr);
+                console.log('xhr: ' + xhr.responseJSON.message + ', status: ' + status + ', error: ' + err);
             })
         },
     },
