@@ -1,8 +1,8 @@
 <template>
     <div>
         <h2 class="text-center">List Todo</h2>
-        <todo-item v-for="todo in todos" v-bind:key="todo.id" v-bind:todo="todo"></todo-item>
-        <pagination v-bind:pagination="this.pagination"></pagination>
+        <todo-item v-for="todo in todos" v-bind:key="todo.id" v-bind="todo"></todo-item>
+        <pagination v-if="pagination.total > 1" v-bind:pagination="this.pagination"></pagination>
     </div>
 </template>
 
@@ -36,12 +36,6 @@ export default {
                 first_page_url : this.todos_data.first_page_url,
                 from : this.todos_data.from,
                 last_page : this.todos_data.last_page,
-                // TO BE REMOVED IF NOT CAUSING ANY PROBLEM IN PAGINATION
-                // last_page_url : this.todos_data.last_page_url,
-                // next_page_url : this.todos_data.next_page_url,
-                // path : this.todos_data.path,
-                // per_page : this.todos_data.per_page,
-                // prev_page_url : this.todos_data.prev_page_url,
                 to : this.todos_data.to,
                 total : this.todos_data.total
             }
@@ -50,6 +44,12 @@ export default {
 
     created : function() {
         this.fetchTodos('todos');
+    },
+
+    mounted : function() {
+        this.$root.$on('refreshTodos', () => {
+            this.fetchTodos('todos');
+        })
     },
 
     methods : {

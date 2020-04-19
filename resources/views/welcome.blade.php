@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Add Todo</h3>
+    <add-todo></add-todo>
     <list-todos></list-todos>
 @endsection

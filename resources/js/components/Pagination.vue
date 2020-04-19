@@ -24,7 +24,7 @@ export default {
     inject : ['fetchTodos'],
 
     methods : {
-        paginate(page) {
+        paginate: function(page) {
             if (page == 'previous') {
                 var url = 'todos?page=' + (this.pagination.current_page - 1);
             } else if (page == 'next') {
