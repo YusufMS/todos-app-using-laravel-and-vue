@@ -1,7 +1,10 @@
 <template>
     <div class="card mb-2">
-        <div class="card-header bg-dark text-light py-2">
+        <div class="card-header bg-dark text-light py-2 d-flex">
             <h5 class="m-0" v-html="title"></h5>
+            <div class="ml-auto">
+                <small v-for="tag in tags" v-bind:key="tag.id" class="bagde badge-pill badge-light ml-1">{{tag.tag_name}}</small>
+            </div>
         </div>
         <div class="card-body py-2">
             <p class="card-text mb-1" v-html="description"></p>
@@ -21,6 +24,6 @@
             'remove-item' : RemoveItem
         },
 
-        props : ['id', 'title', 'description']
+        props : ['id', 'title', 'description', 'tags']
     }
 </script>

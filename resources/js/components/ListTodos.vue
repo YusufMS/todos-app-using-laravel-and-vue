@@ -1,6 +1,13 @@
 <template>
     <div>
         <h2 class="text-center">List Todo</h2>
+        <!-- <form method="get" class="form-inline">
+            <div class="form-group">
+                <label for="search_box">Search</label>
+                <input v-on:click="" type="text" name="search" id="search_box" class="form-control">
+                <div id="output"></div>
+            </div>
+        </form> -->
         <todo-item v-for="todo in todos" v-bind:key="todo.id" v-bind="todo"></todo-item>
         <pagination v-if="pagination.total > 1" v-bind:pagination="this.pagination"></pagination>
     </div>
@@ -15,7 +22,8 @@ import Pagination from './Pagination';
 export default {
     components : {
         'todo-item' : TodoItem,
-        'pagination' : Pagination
+        'pagination' : Pagination,
+        'search_results' : ''
     },
     
     data : function() {
@@ -64,9 +72,8 @@ export default {
                 this.todos_data = json;
             })
             .fail(function(xhr, status, err){
+                // this.$root.alerts = {type: 'error', content: JSON.parse(xhr.responseText).errors};
                 console.log('Request to fetch todos failed');
-                console.log(xhr);
-                console.log('xhr: ' + xhr.responseJSON.message + ', status: ' + status + ', error: ' + err);
             })
         },
     },

@@ -13,11 +13,14 @@
         <div v-else-if="type == 'success'">
             <div v-html="content" class="success-alert row" role="alert"></div>
         </div>
-        <div>
-            <div class="success-alert row" role="alert">ABCD</div>
-        </div>
+        <!-- <div>
+            <div id="success" class="success-alert row" role="alert">
+                ABCD
+                Add close button to alerts
+                <button class="close_button" v-on:click.prevent="close_alert('success')">X</button>
+            </div>
+        </div> -->
     </div>
-
 </template>
 
 <script>
@@ -30,8 +33,10 @@ export default {
 
     props : ['type', 'content'],
 
-    mounted : function() {
-
+    methods : {
+        close_alert : function(type) {
+            $('#' + type).hide();
+        }
     }
 }
 </script>
@@ -56,4 +61,15 @@ export default {
         font-size: 12px;
         letter-spacing: 1px;
     }
+
+    /* .close_button {
+        border-style: none;
+        background-color: inherit;
+        padding: 0px;
+        margin-left: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        color: white;
+        font-weight: bold;
+    } */
 </style>

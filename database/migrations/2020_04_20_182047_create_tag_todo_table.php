@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTodosTable extends Migration
+class CreateTagTodoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateTodosTable extends Migration
      */
     public function up()
     {
-        Schema::create('todos', function (Blueprint $table) {
+        Schema::create('tag_todo', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->required();
-            $table->string('description')->required();
-            $table->boolean('completed');
-            $table->boolean('starred');
-            $table->integer('user_id');
+            $table->unsignedInteger('tag_id');
+            $table->unsignedInteger('todo_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +28,6 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('tag_todo');
     }
 }
