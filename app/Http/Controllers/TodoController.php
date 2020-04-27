@@ -13,11 +13,11 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // To be modified to get only items of Auth user
-        $todos = Todo::orderBy('created_at', 'desc')->with('tags')->paginate(5);
 
+        $todos = Todo::where('todo_item', 'like', '%' . $request->search_string . '%')->orderBy('created_at', 'desc')->with('tags')->paginate(5);
         $todos = json_encode($todos);
         return $todos;
     }
@@ -41,17 +41,16 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|min:3',
-            'description' => 'required'
+            'todo_item' => 'required|string|min:3',
+            // 'completed' => 'required|boolean'
             ]);
-            
+
         $todo = new Todo;
-        $todo->title = $request->title;
-        $todo->description = $request->description;
+        $todo->todo_item = $request->todo_item;
         // DB Accepting null value for UID to be changed in PHP MyAdmin
         $todo->save();
-        
-        foreach ($request->tags as $tag_name) {    
+
+        foreach ($request->tags as $tag_name) {
             $tag = Tag::firstOrCreate(['tag_name' => strtolower($tag_name)]);
             $todo->tags()->attach($tag, ['created_at' => now(), 'updated_at' => now()]);
         }
@@ -88,7 +87,10 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        if ($request->type == 'toggle_complete') {
+            $todo->completed = !($todo->completed);
+            $todo->save();
+        }
     }
 
     /**

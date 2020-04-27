@@ -11,21 +11,22 @@
                     <h3 class="text-center">Add New Todo</h3>
                     <form class="form" method="POST" v-on:submit.prevent="addTodo">
                         <div class="form-group">
-                            <label for="title">Title</label>
-                            <input id="title" name="title" type="text" class="form-control" v-model="form_data.title">
+                            <label for="todo_item">Todo Item</label>
+                            <textarea name="todo_item" class="form-control" v-model="form_data.todo_item" placeholder="Add your todo item here."></textarea>
+                            <!-- <input id="todo_item" name="todo_item" type="text" class="form-control" v-model="form_data.todo_item"> -->
                         </div>
-                        
-                        <div class="form-group">
+
+                        <!-- <div class="form-group">
                             <label for="description">Description</label>
                             <textarea name="description" id="description" class="form-control" v-model="form_data.description"></textarea>
-                        </div>
-                        
+                        </div> -->
+
                         <div class="form-group">
                             <label for="tags">Tags</label>
                             <span v-for="(tag ,index) in form_data.tags" v-bind:key="index" class="badge bagde-pill badge-primary mx-1 my-auto">{{tag}}<a href="#" v-on:click.prevent="remove_tag(index)" class="badge badge-dark ml-1">X</a></span>
                             <input id="tags" name="tags" type="text" class="form-control" v-on:keyup="search_tag()" v-on:keydown.tab.prevent="add_tag()" v-model="search_text">
                             <div v-if="search_text != 0" class="text-muted small mt-2">
-                                Suggestions :  
+                                Suggestions :
                                 <span v-if="search_result.length != 0">
                                     <strong v-for="result in search_result" v-bind:key="result.id">{{result.tag_name}}, </strong>
                                     (Press tab to add tag)
@@ -38,7 +39,7 @@
                                 Start typing to get suggestions
                             </div>
                         </div>
-                        
+
                         <div class="form-group text-right">
                             <input type="submit" value="Add" class="btn btn-success">
                             <input type="reset" value="Reset" class="btn btn-dark">
@@ -57,8 +58,7 @@ export default {
     data () {
         return {
             form_data: {
-                title : '',
-                description : '',
+                todo_item : '',
                 tags : []
             },
             form_visibility : false,
@@ -89,15 +89,15 @@ export default {
             })
             .done(function (res) {
                 this.$root.alerts = {type: 'success', content: '<strong>Success</strong>!!! New todo has been added.'};
+                this.form_data.todo_item = '';
+                this.form_data.tags = [];
+                this.$root.$emit('refreshTodos');
             })
             .fail(function (xhr) {
                 this.$root.alerts = {type: 'error', content: JSON.parse(xhr.responseText).errors};
             })
             .always(function () {
-                this.$root.$emit('refreshTodos');
-                this.form_data.title = '';
-                this.form_data.description = '';
-                this.form_data.tags = [];
+                // To be removed if not needed
             });
         },
 

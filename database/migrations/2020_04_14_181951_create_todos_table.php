@@ -15,8 +15,7 @@ class CreateTodosTable extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->required();
-            $table->string('description')->required();
+            $table->text('todo_item')->required();
             $table->boolean('completed');
             $table->boolean('starred');
             $table->integer('user_id');

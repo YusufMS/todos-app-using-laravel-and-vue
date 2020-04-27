@@ -20,6 +20,7 @@ class Todo extends Model
 
     protected $attributes = [
         'completed' => false,
-        'starred' => false
+        'starred' => false,
+        'user_id' => 1 // To be removed once integrated.
     ];
 }

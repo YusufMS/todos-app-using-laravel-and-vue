@@ -1,17 +1,21 @@
 <template>
     <div>
-        <h2 class="text-center">List Todo</h2>
-        <!-- <form method="get" class="form-inline">
-            <div class="form-group">
-                <label for="search_box">Search</label>
-                <input v-on:click="" type="text" name="search" id="search_box" class="form-control">
-                <div id="output"></div>
-            </div>
-        </form> -->
+        <div class="d-flex border-bottom bg-dark align-items-center justify-content-between text-light p-2 mb-2">
+            <h2 class="mx-1 my-0">Todo Items</h2>
+            <form method="get" class="form-inline justify-content-end">
+                <div class="form-group">
+                    <label for="search_box">Search</label>
+                    <input type="text" name="search" id="search_box" v-model="search_text" v-on:keyup="fetchTodos('todos')" class="form-control form-control-sm mx-2">
+                    <!-- <button type="submit" class="btn btn-success btn-sm"><span class="material-icons">search</span></button> -->
+                    <div id="output"></div>
+                </div>
+            </form>
+        </div>
         <todo-item v-for="todo in todos" v-bind:key="todo.id" v-bind="todo"></todo-item>
-        <pagination v-if="pagination.total > 1" v-bind:pagination="this.pagination"></pagination>
+        <pagination v-if="pagination.total > 5" v-bind:pagination="this.pagination"></pagination>
     </div>
 </template>
+
 
 <script>
 
@@ -25,11 +29,12 @@ export default {
         'pagination' : Pagination,
         'search_results' : ''
     },
-    
+
     data : function() {
         return {
             // Values of fetched results of todos_data are available as computed properties (todos & pagination)
             todos_data : {},
+            search_text : ''
         }
     },
 
@@ -37,7 +42,7 @@ export default {
         todos : function() {
             return this.todos_data.data
             },
-        
+
         pagination : function() {
             return {
                 current_page : this.todos_data.current_page,
@@ -54,6 +59,10 @@ export default {
         this.fetchTodos('todos');
     },
 
+    // updated : function() {
+    //     this.fetchTodos();
+    // },
+
     mounted : function() {
         this.$root.$on('refreshTodos', () => {
             this.fetchTodos('todos');
@@ -66,13 +75,15 @@ export default {
                 url: url,
                 type: 'GET',
                 dataType: 'json',
-                context: this
+                context: this,
+                data: {search_string : this.search_text}
             })
             .done(function(json){
                 this.todos_data = json;
             })
             .fail(function(xhr, status, err){
                 // this.$root.alerts = {type: 'error', content: JSON.parse(xhr.responseText).errors};
+                // console.log(xhr);
                 console.log('Request to fetch todos failed');
             })
         },
@@ -80,7 +91,7 @@ export default {
 
     provide : function() {
         return {fetchTodos: this.fetchTodos};
-    } 
+    }
 
 }
 </script>
