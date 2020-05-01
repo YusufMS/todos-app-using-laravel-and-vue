@@ -6,38 +6,44 @@ use App\Todo;
 use App\Tag;
 use Illuminate\Http\Request;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class TodoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         // To be modified to get only items of Auth user
 
-        $todos = Todo::where('todo_item', 'like', '%' . $request->search_string . '%')->orderBy('created_at', 'desc')->with('tags')->paginate(5);
+        // Get Todos with associated tags
+        $todos = Todo::orderBy('created_at', 'desc')->with('tags');
+        
+        // Filter results by tags provided
+        if ($request->filter_tags) {
+            $todos = $todos->whereHas('tags', function (Builder $query) use ($request) {
+                $query->whereIn('tag_name', $request->filter_tags);
+                }
+            );
+        }
+
+        // Filter results by search string provided
+        if ($request->search_string) {
+            $todos = $todos->where('todo_item', 'like', '%' . $request->search_string . '%');
+        }
+
+        // Filter results by selected status
+        if ($request->filter_status != 'all') {
+            $todos = $todos->where('completed', $request->filter_status);
+        }
+        
+        // Retrieve result output with Pagination
+        $todos = $todos->paginate(5);
+        
+        // JSON format the output (Additional)
         $todos = json_encode($todos);
+
         return $todos;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -56,35 +62,11 @@ class TodoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Todo $todo)
     {
         return $todo;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Todo $todo)
     {
         if ($request->type == 'toggle_complete') {
@@ -93,12 +75,6 @@ class TodoController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Todo $todo)
     {
         $todo->delete();

@@ -1,15 +1,38 @@
 <template>
     <div>
         <div class="d-flex border-bottom bg-dark align-items-center justify-content-between text-light p-2 mb-2">
-            <h2 class="mx-1 my-0">Todo Items</h2>
-            <form method="get" class="form-inline justify-content-end">
-                <div class="form-group">
-                    <label for="search_box">Search</label>
-                    <input type="text" name="search" id="search_box" v-model="search_text" v-on:keyup="fetchTodos('todos')" class="form-control form-control-sm mx-2">
-                    <!-- <button type="submit" class="btn btn-success btn-sm"><span class="material-icons">search</span></button> -->
-                    <div id="output"></div>
+            <!-- Page Title -->
+            <div class="d-flex">
+                <h2 class="mx-1 my-0">Todo Items</h2>
+                <div v-if="filter_tags.length > 0" class="my-auto mx-2">
+                    <span class="font-weight-bold text-muted font-italic">Tags :</span>
+                    <span class="badge badge-light mr-1" v-for="(tag, index) in filter_tags" v-bind:key="tag">
+                        {{ tag }}
+                        <button v-on:click="remove_tag(index)">x</button>
+                    </span>
                 </div>
-            </form>
+            </div>
+            <div class="d-flex">
+                <!-- Filter by tags -->
+                <div class="d-flex">
+                    <span>Tags</span>
+                    <input type="text" v-model="new_tag" v-on:keydown.tab.prevent="add_tag()" class="form-control form-control-sm mx-2" placeholder="Press tab to add tag">
+                </div>
+                <!-- Filter by status -->
+                <div class="d-flex">
+                    <span>Status</span>
+                    <select v-model="filter_status" v-on:change="fetchTodos('todos')" type="" class="form-control form-control-sm mx-2">
+                        <option value='all' selected>All</option>
+                        <option value=0>Incomplete</option>
+                        <option value=1>Completed</option>
+                    </select>
+                </div>
+                <!-- Search Box -->
+                <div class="d-flex">
+                    <span>Search</span>
+                    <input v-model="search_text" v-on:keyup="fetchTodos('todos')" type="text" class="form-control form-control-sm mx-2" placeholder="Enter to search todos">
+                </div>
+            </div>
         </div>
         <todo-item v-for="todo in todos" v-bind:key="todo.id" v-bind="todo"></todo-item>
         <pagination v-if="pagination.total > 5" v-bind:pagination="this.pagination"></pagination>
@@ -34,7 +57,10 @@ export default {
         return {
             // Values of fetched results of todos_data are available as computed properties (todos & pagination)
             todos_data : {},
-            search_text : ''
+            search_text : '',
+            filter_status : 'all',
+            new_tag : '',
+            filter_tags : []
         }
     },
 
@@ -59,10 +85,6 @@ export default {
         this.fetchTodos('todos');
     },
 
-    // updated : function() {
-    //     this.fetchTodos();
-    // },
-
     mounted : function() {
         this.$root.$on('refreshTodos', () => {
             this.fetchTodos('todos');
@@ -76,17 +98,31 @@ export default {
                 type: 'GET',
                 dataType: 'json',
                 context: this,
-                data: {search_string : this.search_text}
+                data: {
+                    search_string : this.search_text,
+                    filter_status : this.filter_status,
+                    filter_tags : this.filter_tags
+                    }
             })
             .done(function(json){
                 this.todos_data = json;
             })
             .fail(function(xhr, status, err){
                 // this.$root.alerts = {type: 'error', content: JSON.parse(xhr.responseText).errors};
-                // console.log(xhr);
+                console.log(xhr.responseJSON);
                 console.log('Request to fetch todos failed');
             })
         },
+
+        add_tag : function() {
+            this.filter_tags.push(this.new_tag);
+            this.new_tag = '';
+            this.fetchTodos('todos');
+        },
+        remove_tag : function(index) {
+            this.filter_tags.splice(index,1);
+            this.fetchTodos('todos');
+        }
     },
 
     provide : function() {
@@ -97,5 +133,10 @@ export default {
 </script>
 
 <style>
-
+.badge button {
+    background-color: none;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
 </style>
