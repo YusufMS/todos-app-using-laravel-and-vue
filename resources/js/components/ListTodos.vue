@@ -49,8 +49,7 @@ import Pagination from './Pagination';
 export default {
     components : {
         'todo-item' : TodoItem,
-        'pagination' : Pagination,
-        'search_results' : ''
+        'pagination' : Pagination
     },
 
     data : function() {
@@ -60,7 +59,7 @@ export default {
             search_text : '',
             filter_status : 'all',
             new_tag : '',
-            filter_tags : []
+            filter_tags : [],
         }
     },
 
@@ -108,8 +107,6 @@ export default {
                 this.todos_data = json;
             })
             .fail(function(xhr, status, err){
-                // this.$root.alerts = {type: 'error', content: JSON.parse(xhr.responseText).errors};
-                console.log(xhr.responseJSON);
                 console.log('Request to fetch todos failed');
             })
         },

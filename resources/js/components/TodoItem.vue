@@ -17,7 +17,6 @@
           <div id="buttons" class="ml-auto">
             <button v-if="completed == false" v-on:click.prevent="toggle_complete()" class="btn btn-sm btn-success">Mark Complete</button>
             <button v-else-if="completed == true" v-on:click.prevent="toggle_complete()" class="btn btn-sm btn-warning">Marked Complete</button>
-            <button class="btn btn-sm btn-primary">Edit</button>
             <remove-item v-bind:id="id"></remove-item>
           </div>
         </div>
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-    import RemoveItem from './RemoveItem'
+    import RemoveItem from './RemoveItem';
 
     export default {
         components : {

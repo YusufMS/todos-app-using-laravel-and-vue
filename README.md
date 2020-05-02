@@ -1,79 +1,72 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Todo-App using Vue & Laravel
+## Overview
+While exploring front-end frameworks for my projects which usually have a backend built with Laravel, Vue and React seemed like the best candidates. Among the two Vue tends to be the one Laravel team and community prefers and hence I decided to explore Vue first. I couldn't use any of my existing projects in exploring the framework due to the overhead it would cause. Hence, I took a small, common and simple **Todo-App** to be built with it.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This app is not a complete app with all the functionalities tested but it has all the basic components that many todo apps have.
 
-## About Laravel
+## Functionalities Covered
+* Login and authentication
+* Add or remove Todo items and view the items added by the authenticated user
+* Mark Todo Items as completed or not
+* Assign **tags** to todo-items
+* Filter and search the items
+* Basic validations
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Vue and Front-end
+### Vue
+First of all, *used Vue for the first time and.. **Loved It !!!***
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Vue app component is placed in *"welcome.blade.php"*. All other components have this app component as root. I've divided the components as I was learning the concepts related to components. So, bare with me if you find them bit messy.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Below are the components used,
+* alert-messages
+* add-todo
+* list-todo
+  * todo-item
+    * remove-item
+  * pagination
 
-## Learning Laravel
+Kindly note that all these fuctions are handled on the home url *" / "*.
+> Note : Routing is only done on backend hence not reflected on browser while resolving the same. I'll be using **"vue-router"** in future projects, but decided not to integrate on this app for now.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Could make use of Vue in many ways through its data driven nature. With the help of AJAX requests it is even more exciting. Checkout the search box which reacts online realtime and the filters on tags and status on top of the Todo Items list,
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+!['Reactive search and filter'](resources/vue-search-and-filter.jpg)
 
-## Laravel Sponsors
+Also, try typing a tag name on the **"Add New Item"** form to see suggestions from already entered tag names which are stored in database. Please note initially you wouldn't get the suggestions as the **tags** table in your database is empty. But as you add new todos with new tags, these tags would be saved in database and would be suggested in future.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+!['Reactive search and filter'](resources/tag-suggestion.jpg)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+### Styling
+Bootstrap is used to style html, which ships with Laravel by default. Hoping to use **Vuetify** next time.
 
-## Contributing
+## The Back-end
+The backend of this app id powered by Laravel and MySQL has been used as the database. No any complex or extended code is  integrated as this was just done in order to explore Vue. Basic Login & Authentication, CRUD on **todo items**, addition of **tags** related to todos, managing relationships and communicating with the database has been taken care by Laravel. 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Login and Authentication
+Basic login provided by `php artisan ui vue --auth` command.
+>Note : Vue has not been integrated for login views. The default **"auth"** views that come with Laravel authentication are used. So don't be alarmed when you see these pages refresh on every mouse click :)
 
-## Code of Conduct
+### CRUD, Requests and Database
+As mentioned above, **Laravel** is used for backend and you may find the CRUD of todo items on **App/Http/Controllers/TodoController**. Laravel's **"eloquent"** came in handy for quickly coding the queries and get required data and in required format.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The requests are handled asynchronously. jQuery is used in sending these AJAX requests and they are handled on the controllers (TodoController & TagController)
 
-## Security Vulnerabilities
+### Validations
+Only basic validations are done as I have repeatedly said that this whole app was built to learn and explore Vue. Validations can be extended with little effort in order to make this app more robust and usable. Let me know if you are interested :)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## What's not covered ?
+Below things haven't been covered in this project, mostly because this was not intended to be an actual project with any scope.
+* Routing (front-end)
+* Not focussed on a super attractive UI
+* No intense validations
+* Error handling and exceptions
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## List of technologies used
+* PHP & Javascript
+* Laravel
+* Vue
+* jQuery (AJAX requests & others)
+* Bootstrap
+___
+***Good day to you then !!!***

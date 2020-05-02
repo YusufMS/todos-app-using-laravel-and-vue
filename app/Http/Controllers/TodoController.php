@@ -12,10 +12,8 @@ class TodoController extends Controller
 {
     public function index(Request $request)
     {
-        // To be modified to get only items of Auth user
-
-        // Get Todos with associated tags
-        $todos = Todo::orderBy('created_at', 'desc')->with('tags');
+        // Get  only items of Auth user with the tags
+        $todos = $request->user()->todos()->orderBy('created_at', 'desc')->with('tags');
         
         // Filter results by tags provided
         if ($request->filter_tags) {
@@ -62,9 +60,9 @@ class TodoController extends Controller
         }
     }
 
-    public function edit(Todo $todo)
+    public function edit($todo)
     {
-        return $todo;
+        return Todo::with('tags')->find($todo);
     }
 
     public function update(Request $request, Todo $todo)
