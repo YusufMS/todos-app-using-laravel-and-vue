@@ -2,7 +2,7 @@
 ## Overview
 While exploring front-end frameworks for my projects which usually have a backend built with Laravel, Vue and React seemed like the best candidates. Among the two Vue tends to be the one Laravel team and community prefers and hence I decided to explore Vue first. I couldn't use any of my existing projects in exploring the framework due to the overhead it would cause. Hence, I took a small, common and simple **Todo-App** to be built with it.
 
-This app is not a complete app with all the functionalities tested but it has all the basic components that many todo apps have.
+This is not a feature rich app but it has all the basic components that most todo apps have.
 
 ## Functionalities Covered
 * Login and authentication
@@ -16,7 +16,7 @@ This app is not a complete app with all the functionalities tested but it has al
 ### Vue
 First of all, *used Vue for the first time and.. **Loved It !!!***
 
-Vue app component is placed in *"welcome.blade.php"*. All other components have this app component as root. I've divided the components as I was learning the concepts related to components. So, bare with me if you find them bit messy.
+Vue app component is placed in *"welcome.blade.php"*. All other components have this app component as root. I've divided the components as I was learning the concepts related to components. So, bear with me if you find them a little clumsy.
 
 Below are the components used,
 * alert-messages
@@ -38,14 +38,14 @@ Also, try typing a tag name on the **"Add New Item"** form to see suggestions fr
 !['Reactive search and filter'](resources/tag-suggestion.jpg)
 
 ### Styling
-Bootstrap is used to style html, which ships with Laravel by default. Hoping to use **Vuetify** next time.
+Bootstrap is used to style html, which ships with Laravel by default. Hope to use **Vuetify** next time !!
 
 ## The Back-end
-The backend of this app id powered by Laravel and MySQL has been used as the database. No any complex or extended code is  integrated as this was just done in order to explore Vue. Basic Login & Authentication, CRUD on **todo items**, addition of **tags** related to todos, managing relationships and communicating with the database has been taken care by Laravel. 
+The backend of this app id powered by Laravel with a MySQL database. No complex or extended code is  integrated as this was just done in order to experiment Vue. Basic Login & Authentication, CRUD on **todo items**, addition of **tags** related to todos, managing relationships and communication with the database has been taken care. 
 
 ### Login and Authentication
 Basic login provided by `php artisan ui vue --auth` command.
->Note : Vue has not been integrated for login views. The default **"auth"** views that come with Laravel authentication are used. So don't be alarmed when you see these pages refresh on every mouse click :)
+>Note : Vue has not been integrated for login views. The default **"auth"** views that come with Laravel authentication are used. Hence don't expect to see these pages reactive..
 
 ### CRUD, Requests and Database
 As mentioned above, **Laravel** is used for backend and you may find the CRUD of todo items on **App/Http/Controllers/TodoController**. Laravel's **"eloquent"** came in handy for quickly coding the queries and get required data and in required format.
@@ -53,10 +53,10 @@ As mentioned above, **Laravel** is used for backend and you may find the CRUD of
 The requests are handled asynchronously. jQuery is used in sending these AJAX requests and they are handled on the controllers (TodoController & TagController)
 
 ### Validations
-Only basic validations are done as I have repeatedly said that this whole app was built to learn and explore Vue. Validations can be extended with little effort in order to make this app more robust and usable. Let me know if you are interested :)
+Basic validations are done. They can be extended with little effort in order to make this app more robust and usable. Let me know if you are interested :)
 
 ## What's not covered ?
-Below things haven't been covered in this project, mostly because this was not intended to be an actual project with any scope.
+Below things haven't been covered in this project.
 * Routing (front-end)
 * Not focussed on a super attractive UI
 * No intense validations
@@ -69,4 +69,4 @@ Below things haven't been covered in this project, mostly because this was not i
 * jQuery (AJAX requests & others)
 * Bootstrap
 ___
-***Good day to you then !!!***
+Do contact me for suggestions or feedback if any. ***Good day to you then !!!***
